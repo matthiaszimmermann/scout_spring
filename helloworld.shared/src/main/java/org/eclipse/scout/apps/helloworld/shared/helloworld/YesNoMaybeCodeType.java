@@ -8,7 +8,7 @@ import org.eclipse.scout.rt.shared.services.common.code.AbstractCodeType;
 public class YesNoMaybeCodeType extends AbstractCodeType<String, String> {
 
 	private static final long serialVersionUID = 1L;
-	public static final String ID = null; // XXX [mzi] set id value
+	public static final String ID = "YesNoMaybeCodeType";
 
 	@Override
 	public String getId() {

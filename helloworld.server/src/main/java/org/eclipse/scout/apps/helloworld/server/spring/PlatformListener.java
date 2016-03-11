@@ -1,4 +1,4 @@
-package org.eclipse.scout.apps.helloworld.server;
+package org.eclipse.scout.apps.helloworld.server.spring;
 
 import java.util.Arrays;
 
