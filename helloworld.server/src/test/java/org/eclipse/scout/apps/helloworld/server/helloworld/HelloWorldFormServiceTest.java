@@ -1,5 +1,8 @@
 package org.eclipse.scout.apps.helloworld.server.helloworld;
 
+import org.eclipse.scout.apps.helloworld.server.ServerSession;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
 import org.eclipse.scout.rt.platform.BEANS;
 import org.eclipse.scout.rt.testing.platform.runner.RunWithSubject;
 import org.eclipse.scout.rt.testing.server.runner.RunWithServerSession;
@@ -7,10 +10,6 @@ import org.eclipse.scout.rt.testing.server.runner.ServerTestRunner;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.eclipse.scout.apps.helloworld.server.ServerSession;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
 
 /**
  * <h3>{@link HelloWorldFormServiceTest}</h3>

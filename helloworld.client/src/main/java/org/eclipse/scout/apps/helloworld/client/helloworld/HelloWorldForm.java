@@ -1,22 +1,25 @@
 package org.eclipse.scout.apps.helloworld.client.helloworld;
 
+import org.eclipse.scout.apps.helloworld.client.dialog.TestDialogForm;
+import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox;
+import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.MessageField;
+import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.OpenDialogButton;
+import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.QuestionButtonGroupBox;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.YesNoMaybeCodeType;
 import org.eclipse.scout.rt.client.dto.FormData;
-import org.eclipse.scout.rt.platform.Order;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
+import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractButton;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.radiobuttongroup.AbstractRadioButtonGroup;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.platform.BEANS;
+import org.eclipse.scout.rt.platform.Order;
 import org.eclipse.scout.rt.shared.AbstractIcons;
 import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.code.ICodeType;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.MessageField;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.YesNoMaybeCodeType;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.QuestionButtonGroupBox;
 
 /**
  * <h3>{@link HelloWorldForm}</h3>
@@ -47,6 +50,10 @@ public class HelloWorldForm extends AbstractForm {
 
 	public MainBox getMainBox() {
 		return getFieldByClass(MainBox.class);
+	}
+
+	public OpenDialogButton getOpenDialogButton() {
+		return getFieldByClass(OpenDialogButton.class);
 	}
 
 	public QuestionButtonGroupBox getQuestionButtonGroupBox() {
@@ -107,8 +114,28 @@ public class HelloWorldForm extends AbstractForm {
                 protected int getConfiguredGridH() {
                        return 3;
                 }
-
 			}
+
+			@Order(3000)
+			public class OpenDialogButton extends AbstractButton {
+				@Override
+				protected String getConfiguredLabel() {
+					return TEXTS.get("OpenDialogForm");
+				}
+
+				@Override
+				protected boolean getConfiguredProcessButton() {
+					return true;
+				}
+				
+				@Override
+				protected void execClickAction() {
+					TestDialogForm form = new TestDialogForm();
+					form.start();
+				}
+			}
+			
+			
 		}
 	}
 

@@ -1,0 +1,8 @@
+@import (less) "scout/form/Form.css";
+
+
+.dialog {
+	.group-box-body {
+		margin-bottom: 25px;
+	}
+}

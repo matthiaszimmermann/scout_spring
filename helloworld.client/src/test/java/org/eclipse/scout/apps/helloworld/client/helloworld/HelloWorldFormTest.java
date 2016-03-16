@@ -1,5 +1,9 @@
 package org.eclipse.scout.apps.helloworld.client.helloworld;
 
+import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.MessageField;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.TestDialogFormData;
 import org.eclipse.scout.rt.client.testenvironment.TestEnvironmentClientSession;
 import org.eclipse.scout.rt.testing.client.runner.ClientTestRunner;
 import org.eclipse.scout.rt.testing.client.runner.RunWithClientSession;
@@ -11,10 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.MessageField;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
 
 /**
  * <h3>{@link HelloWorldFormTest}</h3> Contains Tests for the
@@ -34,8 +34,8 @@ public class HelloWorldFormTest {
 	private IHelloWorldFormService m_mockSvc;
 
 	/**
-	 * Return a reference {@link HelloWorldFormData} on method
-	 * {@link IHelloWorldFormService#load(HelloWorldFormData)}.
+	 * Return a reference {@link TestDialogFormData} on method
+	 * {@link IHelloWorldFormService#load(TestDialogFormData)}.
 	 */
 	@Before
 	public void setup() {
