@@ -1,7 +1,5 @@
 package org.eclipse.scout.apps.helloworld.server.spring;
 
-import java.util.Arrays;
-
 import org.eclipse.scout.rt.platform.IPlatform.State;
 import org.eclipse.scout.rt.platform.IPlatformListener;
 import org.eclipse.scout.rt.platform.PlatformEvent;
@@ -22,12 +20,8 @@ public class PlatformListener implements IPlatformListener {
 			
 			String [] args = new String[] {};
 			ApplicationContext ctx = SpringApplication.run(PlatformListener.class, args);
-			
-	        String[] beanNames = ctx.getBeanDefinitionNames();
-	        Arrays.sort(beanNames);
-	        for (String beanName : beanNames) {
-	        	LOG.info(beanName);
-	        }			
+			SPRING.setContext(ctx);
+			LOG.info("Spring platform ready");
 		}
 	}
 }

@@ -29,9 +29,7 @@
 		<module>../helloworld.shared</module>
 		<module>../helloworld.server</module>
 		<module>../helloworld.client</module>
-		<module>../helloworld.server.app.war</module>
 		<module>../helloworld.ui.html</module>
-		<module>../helloworld.ui.html.app.war</module>
 	</modules>
 
 	<dependencyManagement>

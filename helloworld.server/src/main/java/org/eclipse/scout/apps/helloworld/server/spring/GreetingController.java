@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GreetingController {
 
-    private static final String template = "Hello, %s!";
-
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
     	Long id = BEANS.get(Counter.class).nextValue();
-    	String content = String.format(template, name);
+    	String content = SPRING.get(Hello.class).getText(name);
         return new Greeting(id, content);
     }
 }
