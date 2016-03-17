@@ -20,9 +20,10 @@
 
 	<properties>
 		<org.eclipse.scout.apps.helloworld.version>${project.version}</org.eclipse.scout.apps.helloworld.version>
-		<java.version>1.8</java.version>
-		<jdk.source.version>1.8</jdk.source.version>
 		<org.eclipse.scout.rt_version>5.2.0.M5</org.eclipse.scout.rt_version>
+		<org.springframework.boot.version>1.3.3.RELEASE</org.springframework.boot.version>
+		<jdk.source.version>1.8</jdk.source.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<modules>
@@ -64,12 +65,13 @@
 				<artifactId>helloworld.ui.html</artifactId>
 				<version>${org.eclipse.scout.apps.helloworld.version}</version>
 			</dependency>
-			
+
 			<!-- Spring Boot Dependencies -->
+			<!-- TODO make spring boot use the available servlet container (it currently starts the embedded tomcat)  -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.3.3.RELEASE</version>
+				<version>${org.springframework.boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
