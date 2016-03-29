@@ -20,7 +20,6 @@ public class SearchOutline extends AbstractSearchOutline {
 	@Override
 	protected void execSearch(final String query) {
 		LOG.info("Search started");
-		// TODO [mzi]: Implement search
 	}
 
 	@Override

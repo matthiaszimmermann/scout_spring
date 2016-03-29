@@ -68,13 +68,14 @@
 
 			<!-- Spring Boot Dependencies -->
 			<!-- TODO make spring boot use the available servlet container (it currently starts the embedded tomcat)  -->
-			<dependency>
+<!-- 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${org.springframework.boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
+			</dependency> -->
+		<!-- Compile -->
 		</dependencies>
 	</dependencyManagement>
 </project>
