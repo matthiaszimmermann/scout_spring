@@ -1,8 +1,11 @@
 package org.eclipse.scout.apps.helloworld.server.spring;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -81,9 +84,32 @@ public class SpringScoutBridge {
 				registerSpringBean(clazz);
 				
 				String annotation = springAnnotation.getSimpleName();
-				LOG.info("registered Spring {} {}", annotation, clazz.getName());
+				LOG.info("Registered Spring {} {}", annotation, clazz.getName());
 			}
 		}
+		
+		showBanner();
+	}
+
+	private void showBanner() {
+		StringBuilder result = new StringBuilder("Show banner\n");
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("banner.txt").getFile());
+		
+		try (Scanner scanner = new Scanner(file)) {
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				result.append(line).append("\n");
+			}
+
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		LOG.info(result.toString());
 	}
 
 	@PreDestroy // TODO mzi --> push for support of @PreDestroy for Scout beans 
