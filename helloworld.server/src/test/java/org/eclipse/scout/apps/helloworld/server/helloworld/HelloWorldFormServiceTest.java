@@ -1,8 +1,8 @@
 package org.eclipse.scout.apps.helloworld.server.helloworld;
 
 import org.eclipse.scout.apps.helloworld.server.ServerSession;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
+import org.eclipse.scout.apps.helloworld.shared.IGreetingService;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.GreetingFormData;
 import org.eclipse.scout.rt.platform.BEANS;
 import org.eclipse.scout.rt.testing.platform.runner.RunWithSubject;
 import org.eclipse.scout.rt.testing.server.runner.RunWithServerSession;
@@ -24,8 +24,8 @@ public class HelloWorldFormServiceTest {
 
 	@Test
 	public void testMessageContainsSubjectName() {
-		HelloWorldFormData input = new HelloWorldFormData();
-		input = BEANS.get(IHelloWorldFormService.class).load(input);
+		GreetingFormData input = new GreetingFormData();
+		input = BEANS.get(IGreetingService.class).load(input);
 
 		Assert.assertNotNull(input.getMessage());
 		Assert.assertEquals("Hello " + SUBJECT_NAME + "!", input.getMessage().getValue());

@@ -1,15 +1,15 @@
-package org.eclipse.scout.apps.helloworld.client.helloworld;
+package org.eclipse.scout.apps.helloworld.client;
 
 import org.eclipse.scout.rt.client.ui.desktop.outline.pages.AbstractPageWithNodes;
 import org.eclipse.scout.rt.client.ui.form.IForm;
 import org.eclipse.scout.rt.shared.TEXTS;
 
 /**
- * <h3>{@link HelloWorldPage}</h3>
+ * <h3>{@link GreetingPage}</h3>
  *
  * @author mzi
  */
-public class HelloWorldPage extends AbstractPageWithNodes {
+public class GreetingPage extends AbstractPageWithNodes {
 
 	@Override
 	protected boolean getConfiguredLeaf() {
@@ -28,6 +28,6 @@ public class HelloWorldPage extends AbstractPageWithNodes {
 
 	@Override
 	protected Class<? extends IForm> getConfiguredDetailForm() {
-		return HelloWorldForm.class;
+		return GreetingForm.class;
 	}
 }

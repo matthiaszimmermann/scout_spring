@@ -1,13 +1,13 @@
-package org.eclipse.scout.apps.helloworld.client.helloworld;
+package org.eclipse.scout.apps.helloworld.client;
 
+import org.eclipse.scout.apps.helloworld.client.GreetingForm.MainBox.TopBox;
+import org.eclipse.scout.apps.helloworld.client.GreetingForm.MainBox.TopBox.MessageField;
+import org.eclipse.scout.apps.helloworld.client.GreetingForm.MainBox.TopBox.OpenDialogButton;
+import org.eclipse.scout.apps.helloworld.client.GreetingForm.MainBox.TopBox.QuestionButtonGroupBox;
 import org.eclipse.scout.apps.helloworld.client.dialog.TestDialogForm;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.MessageField;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.OpenDialogButton;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox.QuestionButtonGroupBox;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.HelloWorldFormData;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.IHelloWorldFormService;
-import org.eclipse.scout.apps.helloworld.shared.helloworld.YesNoMaybeCodeType;
+import org.eclipse.scout.apps.helloworld.shared.IGreetingService;
+import org.eclipse.scout.apps.helloworld.shared.YesNoMaybeCodeType;
+import org.eclipse.scout.apps.helloworld.shared.helloworld.GreetingFormData;
 import org.eclipse.scout.rt.client.dto.FormData;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
@@ -22,14 +22,14 @@ import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.code.ICodeType;
 
 /**
- * <h3>{@link HelloWorldForm}</h3>
+ * <h3>{@link GreetingForm}</h3>
  *
  * @author mzi
  */
-@FormData(value = HelloWorldFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
-public class HelloWorldForm extends AbstractForm {
+@FormData(value = GreetingFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
+public class GreetingForm extends AbstractForm {
 
-	public HelloWorldForm() {
+	public GreetingForm() {
 		setHandler(new ViewHandler());
 	}
 
@@ -143,8 +143,8 @@ public class HelloWorldForm extends AbstractForm {
 
 		@Override
 		protected void execLoad() {
-			IHelloWorldFormService service = BEANS.get(IHelloWorldFormService.class);
-			HelloWorldFormData formData = new HelloWorldFormData();
+			IGreetingService service = BEANS.get(IGreetingService.class);
+			GreetingFormData formData = new GreetingFormData();
 			exportFormData(formData);
 			formData = service.load(formData);
 			importFormData(formData);

@@ -1,5 +1,8 @@
 package org.eclipse.scout.apps.helloworld.server.model;
 
+/**
+ * POJO greeting class with an id and a content field.
+ */
 public class Greeting {
 
     private final long id;

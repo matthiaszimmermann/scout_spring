@@ -1,4 +1,4 @@
-package org.eclipse.scout.apps.helloworld.shared.helloworld;
+package org.eclipse.scout.apps.helloworld.shared;
 
 import org.eclipse.scout.rt.platform.Order;
 import org.eclipse.scout.rt.shared.TEXTS;

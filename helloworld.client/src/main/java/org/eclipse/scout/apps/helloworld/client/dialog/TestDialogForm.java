@@ -1,7 +1,7 @@
 package org.eclipse.scout.apps.helloworld.client.dialog;
 
+import org.eclipse.scout.apps.helloworld.client.GreetingForm.MainBox.TopBox;
 import org.eclipse.scout.apps.helloworld.client.dialog.TestDialogForm.MainBox.OkButton;
-import org.eclipse.scout.apps.helloworld.client.helloworld.HelloWorldForm.MainBox.TopBox;
 import org.eclipse.scout.apps.helloworld.shared.helloworld.TestDialogFormData;
 import org.eclipse.scout.rt.client.dto.FormData;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;

@@ -13,7 +13,7 @@ public class SpringServletInitializer extends DispatcherServlet {
 	
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ApplicationContext parent) {
-		return BEANS.get(ScoutSpringBridge.class).getSpringContext();
+		return BEANS.get(SpringScoutBridge.class).getSpringContext();
 	}
 }
 

@@ -1,7 +1,8 @@
 package org.eclipse.scout.apps.helloworld.server.spring;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,6 +18,8 @@ import org.eclipse.scout.rt.platform.IPlatformListener;
 import org.eclipse.scout.rt.platform.PlatformEvent;
 import org.eclipse.scout.rt.platform.inventory.ClassInventory;
 import org.eclipse.scout.rt.platform.inventory.IClassInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -26,63 +29,71 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 /**
  * Scout bean containing the Spring application context. 
  * On platform startup the Spring application context is created and on shutdown the Spring context is destroyed again.
+ * Spring beans are auto-discovered and registered with the Scout bean manager.
  */
 @ApplicationScoped
 @CreateImmediately
-public class ScoutSpringBridge {
-
-	private AnnotationConfigWebApplicationContext m_springContext;
+public class SpringScoutBridge {
 
 	/**
+	 * Spring annotations to query for registration with the Scout bean manager.
+	 * {@link Component}, {@link Service}, {@link Controller}, {@link Repository}.
+	 */
+	public static final List<Class<? extends Annotation>> SPRING_ANNOTATIONS = Arrays.asList(
+			Component.class, 
+			Service.class, 
+			Controller.class, 
+			Repository.class);
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SpringScoutBridge.class);
+	private AnnotationConfigWebApplicationContext m_springContext;
+
+	/** 
+	 * Returns the Spring application context.
+	 */
+	public AnnotationConfigWebApplicationContext getSpringContext() {
+		return m_springContext;
+
+	}
+
+	/** 
+	 * Sets the Spring application context.
+	 */
+	public void setSpringContext(AnnotationConfigWebApplicationContext springContext) {
+		m_springContext = springContext;
+	}
+	
+	/**
 	 * Creates a Spring application context at application startup.
-	 * During startup all classes implementing any of the following Spring annotations are registered with the Scout bean manager.
-	 * {@link Component @Component}, {@link Service @Service}, {@link Controller @Controller}, {@link Repository @Repository}.
+	 * During startup all classes annotated with any annotation defined in {@link #SPRING_ANNOTATIONS} 
+	 * are registered with the Scout bean manager.
 	 */
 	@PostConstruct
 	public void postConstruct() {
 		m_springContext = new AnnotationConfigWebApplicationContext();
 		m_springContext.register(SpringConfiguration.class);
 		m_springContext.refresh();
-		
-		// Auto discover Spring beans
-		Set<IClassInfo> knownAnnotatedTypes = new HashSet<>();
-		knownAnnotatedTypes.addAll(ClassInventory.get().getKnownAnnotatedTypes(Component.class));
-		knownAnnotatedTypes.addAll(ClassInventory.get().getKnownAnnotatedTypes(Service.class));
-		knownAnnotatedTypes.addAll(ClassInventory.get().getKnownAnnotatedTypes(Controller.class));
-		knownAnnotatedTypes.addAll(ClassInventory.get().getKnownAnnotatedTypes(Repository.class));
-		
+
 		// Register Spring beans in Scout bean manager
-		for (IClassInfo classInfo : knownAnnotatedTypes) {
-			registerSpringBean(classInfo.resolveClass());
+		for (Class<?> springAnnotation: SPRING_ANNOTATIONS) {
+			for (IClassInfo classInfo : ClassInventory.get().getKnownAnnotatedTypes(springAnnotation)) {
+				Class<?> clazz = classInfo.resolveClass();
+				registerSpringBean(clazz);
+				
+				String annotation = springAnnotation.getSimpleName();
+				LOG.info("registered Spring {} {}", annotation, clazz.getName());
+			}
 		}
 	}
-	
-	@PreDestroy // TODO mzi --> make this work
+
+	@PreDestroy // TODO mzi --> push for support of @PreDestroy for Scout beans 
 	public void destory() {
 		m_springContext.close();
 	}
-	
-	/** 
-	 * Returns the Spring application context.
-	 */
-	public AnnotationConfigWebApplicationContext getSpringContext() {
-		return m_springContext;
-		
-	}
-	
-	/** 
-	 * Sets the Spring application context.
-	 */
-	public void setSpringContext(AnnotationConfigWebApplicationContext context) {
-		m_springContext = context;
-	}
-	
+
 	/**
 	 * Registers the provided class with the Scout bean manager.
 	 * This allows to retrieve it with {@link BEANS#get(Class)}.
-	 * Method should only be used to register classes with one of the following Spring annotations: 
-	 * {@link Component @Component}, {@link Service @Service}, 
-	 * {@link Controller @Controller}, {@link Repository @Repository}.
 	 */
 	public <T> void registerSpringBean(Class<T> springBeanClazz) {
 		BEANS.getBeanManager().registerBean(new BeanMetaData(springBeanClazz).withProducer(new IBeanInstanceProducer<T>() {
@@ -93,17 +104,17 @@ public class ScoutSpringBridge {
 			}
 		}));
 	}
-	
+
 	/**
 	 * Scout platform listener to destroy the Spring context.
-	 * Work around class as Scout beans do not support the @PreDestroy annotation. 
+	 * Work around class as Scout beans do not (yet) support the @PreDestroy annotation. 
 	 */
 	public static class PlatformListener implements IPlatformListener {
 
 		@Override
 		public void stateChanged(PlatformEvent event) {
 			if (event.getState() == State.PlatformStopping) {
-				BEANS.get(ScoutSpringBridge.class).destory();
+				BEANS.get(SpringScoutBridge.class).destory();
 			}
 		}
 	}

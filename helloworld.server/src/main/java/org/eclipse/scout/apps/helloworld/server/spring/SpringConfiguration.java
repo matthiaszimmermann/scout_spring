@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Main Spring configuration class used in {@link ScoutSpringBridge}.
+ * Main Spring configuration class used in {@link SpringScoutBridge}.
  */
 @Configuration
 // @EnableWebMvc // (does not work)
