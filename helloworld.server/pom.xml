@@ -16,6 +16,7 @@
 	<name>My Application Server</name>
 
 	<dependencies>
+		<!-- scout dependencies -->
 		<dependency>
 			<artifactId>org.eclipse.scout.rt.server</artifactId>
 			<groupId>org.eclipse.scout.rt</groupId>
@@ -29,34 +30,23 @@
 			<artifactId>org.eclipse.scout.rt.server.test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- Spring Boot already contains the servlet api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework</groupId> -->
-		<!-- <artifactId>spring-core</artifactId> -->
-		<!-- <version>4.2.5.RELEASE</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework</groupId> -->
-		<!-- <artifactId>spring-context</artifactId> -->
-		<!-- <version>4.2.5.RELEASE</version> -->
-		<!-- </dependency> -->
 		
-		<!-- spring-webmvc needed for providing rest services -->
+		<!-- springframework dependencies: spring-webmvc needed for providing rest services -->
 		<!-- includes spring-core and spring-context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.2.5.RELEASE</version>
 		</dependency>
-		<!-- message conversion to json -->
+		
+		<!-- jackson dependencies: message conversion to json -->
+		<!-- TODO mzi: verify if this is really necessary-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.5.3</version>
 		</dependency>
 	</dependencies>
 </project>
