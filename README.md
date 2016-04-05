@@ -7,7 +7,7 @@ The setup integrates the standard Eclipse Scout Hello World application (Scout N
 1. Start the application using launcher `helloworld-all-dev.launch` in module `helloworld.all.app.dev`
 3. Use the application
   * [http://localhost:8082/](http://localhost:8082/): Scout HTML5 user interface 
-  * [http://localhost:8082/greeting?name=Alice](http://localhost:8082/greeting?name=Alice): Spring Boot REST service
+  * [http://localhost:8082/api/greeting?name=Alice](http://localhost:8082/greeting?name=Alice): Spring Boot REST service
 
 ## Adding Spring to the Eclipse Scout Hello World
 1. Create a standard Eclipse Scout "Hello World"
