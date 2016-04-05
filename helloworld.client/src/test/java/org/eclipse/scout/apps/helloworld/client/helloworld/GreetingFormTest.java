@@ -18,7 +18,7 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 /**
- * <h3>{@link HelloWorldFormTest}</h3> Contains Tests for the
+ * <h3>{@link GreetingFormTest}</h3> Contains Tests for the
  * {@link GreetingForm}.
  *
  * @author mzi
@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 @RunWith(ClientTestRunner.class)
 @RunWithSubject("anonymous")
 @RunWithClientSession(TestEnvironmentClientSession.class)
-public class HelloWorldFormTest {
+public class GreetingFormTest {
 
 	private static final String MESSAGE_VALUE = "testData";
 

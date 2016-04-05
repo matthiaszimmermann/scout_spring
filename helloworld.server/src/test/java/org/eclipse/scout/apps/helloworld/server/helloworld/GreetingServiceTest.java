@@ -12,14 +12,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * <h3>{@link HelloWorldFormServiceTest}</h3>
+ * <h3>{@link GreetingServiceTest}</h3>
  *
  * @author mzi
  */
 @RunWith(ServerTestRunner.class)
-@RunWithSubject(HelloWorldFormServiceTest.SUBJECT_NAME)
+@RunWithSubject(GreetingServiceTest.SUBJECT_NAME)
 @RunWithServerSession(ServerSession.class)
-public class HelloWorldFormServiceTest {
+public class GreetingServiceTest {
 	public static final String SUBJECT_NAME = "test_subject";
 
 	@Test
@@ -28,6 +28,6 @@ public class HelloWorldFormServiceTest {
 		input = BEANS.get(IGreetingService.class).load(input);
 
 		Assert.assertNotNull(input.getMessage());
-		Assert.assertEquals("Hello " + SUBJECT_NAME + "!", input.getMessage().getValue());
+		Assert.assertEquals("[1, 'Hello " + SUBJECT_NAME + "!']", input.getMessage().getValue());
 	}
 }

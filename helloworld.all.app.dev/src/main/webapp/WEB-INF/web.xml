@@ -1,52 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    version="2.5">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 
-  <display-name>My Application HTML UI Development</display-name>
+	<display-name>My Application HTML UI Development</display-name>
 
-  <listener>
-    <listener-class>org.eclipse.scout.rt.server.commons.WebappEventListener</listener-class>
-  </listener>
+	<!-- Spring servlet for REST calls -->
+	<servlet>
+		<servlet-name>api</servlet-name>
+		<servlet-class>org.eclipse.scout.apps.helloworld.server.spring.SpringServletInitializer</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
-  <listener>
-    <listener-class>org.eclipse.scout.rt.ui.html.UiHttpSessionListener</listener-class>
-  </listener>
+	<servlet-mapping>
+		<servlet-name>api</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
 
-  <filter>
-    <filter-name>AuthFilter</filter-name>
-    <filter-class>org.eclipse.scout.apps.helloworld.ui.html.UiServletFilter</filter-class>
-    <init-param>
-      <param-name>filter-exclude</param-name>
-      <param-value>
+	<listener>
+		<listener-class>org.eclipse.scout.rt.server.commons.WebappEventListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.eclipse.scout.rt.ui.html.UiHttpSessionListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>org.eclipse.scout.apps.helloworld.ui.html.UiServletFilter</filter-class>
+		<init-param>
+			<param-name>filter-exclude</param-name>
+			<param-value>
         /res/*
         /login.html
         /logout.html
       </param-value>
-    </init-param>
-  </filter>
+		</init-param>
+	</filter>
 
-  <filter-mapping>
-    <filter-name>AuthFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-  <servlet>
-    <servlet-name>UiServlet</servlet-name>
-    <servlet-class>org.eclipse.scout.rt.ui.html.UiServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>UiServlet</servlet-name>
+		<servlet-class>org.eclipse.scout.rt.ui.html.UiServlet</servlet-class>
+	</servlet>
 
-  <servlet-mapping>
-    <servlet-name>UiServlet</servlet-name>
-    <url-pattern>/*</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UiServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
 
-  <session-config>
-    <!-- Session timeout in minutes -->
-    <!-- (Note: Do not use a short timeout in DEV mode to allow longer debugging sessions) -->
-    <session-timeout>60</session-timeout>
-  </session-config>
+	<servlet>
+		<servlet-name>process</servlet-name>
+		<servlet-class>org.eclipse.scout.rt.server.ServiceTunnelServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>diagnostics</servlet-name>
+		<servlet-class>org.eclipse.scout.rt.server.admin.diagnostic.DiagnosticServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>process</servlet-name>
+		<url-pattern>/process</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>diagnostics</servlet-name>
+		<url-pattern>/diagnostics</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<!-- Session timeout in minutes -->
+		<!-- (Note: Do not use a short timeout in DEV mode to allow longer debugging 
+			sessions) -->
+		<session-timeout>60</session-timeout>
+	</session-config>
 
 </web-app>

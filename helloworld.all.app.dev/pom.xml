@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.eclipse.scout.apps</groupId>
-    <artifactId>helloworld</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../helloworld/pom.xml</relativePath>
-  </parent>
+	<parent>
+		<groupId>org.eclipse.scout.apps</groupId>
+		<artifactId>helloworld</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../helloworld/pom.xml</relativePath>
+	</parent>
 
-  <artifactId>helloworld.server.app.dev</artifactId>
-  <packaging>war</packaging>
+	<artifactId>helloworld.all.app.dev</artifactId>
+	<packaging>war</packaging>
 
-  <name>My Application HTML UI WAR Development</name>
+	<name>My Application HTML UI WAR Development</name>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.eclipse.scout.rt</groupId>
-      <artifactId>org.eclipse.scout.dev.jetty</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.scout.apps</groupId>
-      <artifactId>helloworld.server</artifactId>
-    </dependency>
-  </dependencies>
+	<dependencies>
+	    <!-- helloworld application dependencies -->
+		<dependency>
+			<groupId>org.eclipse.scout.apps</groupId>
+			<artifactId>helloworld.ui.html</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.scout.apps</groupId>
+			<artifactId>helloworld.server</artifactId>
+		</dependency>
+	    <!-- scout dependencies -->
+		<dependency>
+			<groupId>org.eclipse.scout.rt</groupId>
+			<artifactId>org.eclipse.scout.dev.jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.scout.rt</groupId>
+			<artifactId>org.eclipse.scout.rt.serverbridge</artifactId>
+		</dependency>
+	</dependencies>
 </project>
