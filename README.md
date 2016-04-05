@@ -1,53 +1,68 @@
 # Eclipse Scout Spring Integration
-This example project combines Eclipse Scout and Spring Boot into a single application.
+This example project combines Eclipse Scout and Spring Core/Context/Webmvc into a single application.
 
-The setup integrates the standard Eclipse Scout Hello World application (Scout Neon M5) with the [https://spring.io/guides/gs/rest-service/](Spring Boot REST tutorial)
+The setup integrates the standard Eclipse Scout Hello World application (Scout Neon M6) with the basics provided in [https://spring.io/guides/gs/rest-service/](Spring Boot REST tutorial)
 
 ## Demo
-1. Start the Scout server (will also start Spring boot)
-2. Start the Scout client 
+1. Start the application using launcher `helloworld-all-dev.launch` in module `helloworld.all.app.dev`
 3. Use the application
   * [http://localhost:8082/](http://localhost:8082/): Scout HTML5 user interface 
-  * [http://localhost:8081/greeting?name=Alice](http://localhost:8081/greeting?name=Alice): Spring Boot REST service
+  * [http://localhost:8081/greeting?name=Alice](http://localhost:8082/greeting?name=Alice): Spring Boot REST service
 
-## Adding SpringBoot to the Eclipse Scout Hello World
+## Adding Spring to the Eclipse Scout Hello World
 1. Create a standard Eclipse Scout "Hello World"
-2. Add `spring-boot-dependencies` to the `pom.xml` of the `helloworld` module:
+2. Add `spring-webmvc` to the `pom.xml` of the `helloworld` module:
 ```
 <project ...
   
-  ...
+	<properties>
+		...
+		<org.springframework.version>4.2.5.RELEASE</org.springframework.version>
+		<com.fasterxml.jackson.version>2.5.3</com.fasterxml.jackson.version>
+		...
+	</properties>
+  
+  	...
   
 	<dependencyManagement>
 		<dependencies>
-		  ...
-			<!-- Spring Boot Dependencies -->
+		  	...
+			<!-- Spring Dependencies -->
 			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>1.3.3.RELEASE</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			
+			<!-- Jackson Dependencies -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${com.fasterxml.jackson.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
 ```
-3. Add the `spring-boot-starter-web` dependency to the `pom.xml` of the `helloworld.server` module and and remove the explicit dependency to the `javax.servlet` as this is already included in `spring-boot-starter-web`:
+3. Add the `spring-webmvc` and the `jackson-databind` dependency to the `pom.xml` of the `helloworld.server` module.
 ```
 <project ...
   
-  ...
+  	...
 	<dependencies>
-    ...
-<!-- Spring Boot already contains the servlet api  -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.servlet</groupId> -->
-<!-- 			<artifactId>javax.servlet-api</artifactId> -->
-<!-- 		</dependency> -->
+    		...
+		<!-- springframework dependencies: spring-webmvc needed for providing rest services -->
+		<!-- includes spring-core and spring-context -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		
+		<!-- jackson dependencies: message conversion to json -->
+		<!-- TODO mzi: verify if this is really necessary-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 	</dependencies>
 </project>
@@ -55,48 +70,48 @@ The setup integrates the standard Eclipse Scout Hello World application (Scout N
 
 ## Starting SpringBoot and creating a REST service
 
-The integration of SpringBoot into the Scout server is implemented in the package `org.eclipse.scout.apps.helloworld.server.spring` of the `helloworld.server` module.
+The integration of Spring into the Scout server is implemented in the package `org.eclipse.scout.apps.helloworld.server.spring` of the `helloworld.server` module.
 
-```
-@SpringBootApplication
-public class PlatformListener implements IPlatformListener {
-	private static final Logger LOG = LoggerFactory.getLogger(PlatformListener.class);
+Class `SpringScoutBridge` starts immediately after the Scout platform is available. 
+This class creates the Spring context to access all Spring components and registers the components with the Scout bean manager.
+The class `SpringScoutBridge` also invokes the configuration class `SpringConfiguration`.
 
-	@Override
-	public void stateChanged(PlatformEvent event) {
-		if (event.getState() == State.BeanManagerValid) {
-			LOG.info("Scout platform ready");
-			
-			String [] args = new String[] {};
-			ApplicationContext ctx = SpringApplication.run(PlatformListener.class, args);
-			
-      String[] beanNames = ctx.getBeanDefinitionNames();
-      Arrays.sort(beanNames);
-      for (String beanName : beanNames) {
-	     	LOG.info(beanName);
-	    }			
-		}
-	}
-}
-```
-
-In class `PlatformListener` method `SpringApplication.run` is called as soon as the Scout platform has started.
-A REST service is then implemented in class `GreetingController`. 
-Internally this REST service is accessing a Scout bean to get counter values.
+The Spring REST service mentioned above is then implemented in class `GreetingRestController`. 
+Internally this REST service is accessing both a Scout bean to get counter values and makes use of the Spring @Autowired feature.
 
 ```
 @RestController
-public class GreetingController {
+public class GreetingRestController {
 
-    private static final String template = "Hello, %s!";
+  @Autowired
+  Hello hello;
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-    	Long id = BEANS.get(Counter.class).nextValue();
-    	String content = String.format(template, name);
-        return new Greeting(id, content);
-    }
+  @RequestMapping("/greeting")
+  @ResponseBody
+  public String greeting(@RequestParam(value="name", defaultValue="World") String name) {
+    	Long id = BEANS.get(Counter.class).nextValue(); // access a Scout bean
+	String content = hello.getText(name); // access a Spring component
+		
+	return new Greeting(id, content).toString();
+  }
 }
 ```
 
+Finally, the Scout bean `GreetingService` shows how to access Spring components from the context of Scout beans.
 
+```
+public class GreetingService implements IGreetingService {
+
+	@Override
+	public GreetingFormData load(GreetingFormData input) {
+    	String user = ServerSession.get().getUserId();
+    	
+    	Long id = BEANS.get(Counter.class).nextValue(); // access a Scout bean
+    	String content = BEANS.get(Hello.class).getText(user); // accessing a Spring component as a Scout bean
+		    	
+		input.getMessage().setValue((new Greeting(id, content)).toString());
+		
+		return input;
+	}
+}
+```
